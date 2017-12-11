@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		314792141FDF0F6D00E88B04 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314792131FDF0F6D00E88B04 /* Word.swift */; };
+		314792161FDF0F8100E88B04 /* Concordance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314792151FDF0F8100E88B04 /* Concordance.swift */; };
 		314BF1551FDCE3B200C48739 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314BF1541FDCE3B200C48739 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		314792131FDF0F6D00E88B04 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		314792151FDF0F8100E88B04 /* Concordance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concordance.swift; sourceTree = "<group>"; };
 		314BF1511FDCE3B200C48739 /* Apple_HW8_Concordance */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Apple_HW8_Concordance; sourceTree = BUILT_PRODUCTS_DIR; };
 		314BF1541FDCE3B200C48739 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +62,8 @@
 			isa = PBXGroup;
 			children = (
 				314BF1541FDCE3B200C48739 /* main.swift */,
+				314792131FDF0F6D00E88B04 /* Word.swift */,
+				314792151FDF0F8100E88B04 /* Concordance.swift */,
 			);
 			path = Apple_HW8_Concordance;
 			sourceTree = "<group>";
@@ -121,6 +127,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				314BF1551FDCE3B200C48739 /* main.swift in Sources */,
+				314792161FDF0F8100E88B04 /* Concordance.swift in Sources */,
+				314792141FDF0F6D00E88B04 /* Word.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
