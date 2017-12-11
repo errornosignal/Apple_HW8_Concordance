@@ -8,5 +8,5 @@
 
 import Foundation
 
-print("Please write this program.")
+print("Write some code.")
 
