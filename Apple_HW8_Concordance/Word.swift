@@ -38,9 +38,9 @@ struct Word {
     }
 
     //other struct functions
-    func parseOutWords(word: Word, vector<string> &book, vector<Word> &wordList)
+    func parseOutWords(word: Word, book: [String], wordList: [Word])
     {
-        for i in &book {                             //loop through lines elements in vector
+        for i in book {                             //loop through lines elements in vector
             if (!book[i].empty()) {                                            //test for contenct
                 stringstream ss(book[i])                                       //declare and initialize local variables
                 var wordString: String = ""
@@ -76,7 +76,7 @@ struct Word {
     func removeLeadingPunct(wordString: String) {
         if (!isalnum(wordString.first)){                             //if first char ispunct, the opposite of isalnum...
             wordString.erase(wordString.begin())                  //...then, remove that char
-            if (wordString.count > 0 && !isalnum(wordString.first)) { //if string is not empty and the first char is not punct...
+            if (!wordString.isEmpty 0 && !isalnum(wordString.first)) { //if string is not empty and the first char is not punct...
                 removeLeadingPunct(wordString: wordString)                    //...then, get recursive on it
             }
         } else { /*doNothing()*/ }
@@ -85,7 +85,7 @@ struct Word {
     func removeTrailingPunct(wordString: String) {
         if (!isalnum(wordString[wordString.count - 1])) {                //if last char ispunct, the opposite of isalnum...
             wordString.pop_back()                                           //...then, remove that char
-            if (wordString.count > 0 && !isalnum(wordString.count - 1)) { //if string is not empty and the last char is not punct...
+            if (!wordString.isEmpty && !isalnum(wordString.count - 1)) { //if string is not empty and the last char is not punct...
                 removeTrailingPunct(wordString: wordString)                 //...then, get recursive on it
             }
         } else { /*doNothing()*/ }

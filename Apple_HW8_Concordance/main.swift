@@ -13,7 +13,7 @@ func getConsoleInput_string(prompt: String) -> String {
     while (true) {
         print(prompt)
         let userInput = readLine()!
-        if(userInput.count > 0) {
+        if(!userInput.isEmpty) {
             return userInput
         } else {
             print("Error! No Input.")
@@ -21,7 +21,7 @@ func getConsoleInput_string(prompt: String) -> String {
     }
 }
 
-func readFileByLine(&inFile: fstream, vector<string> &book: Vector<String>) {
+func readFileByLine(inFile: fstream, book: [String]) {
     var line: String = ""
     var lineCount: Int = 0
     
@@ -31,39 +31,39 @@ func readFileByLine(&inFile: fstream, vector<string> &book: Vector<String>) {
     }
 }
 
-func  displayBook(book: Vector<String>) {
+func displayBook(book: [String]) {
     print("\\\\begininng of file\\\\")
     for i in book {
-        print(i + 1 << "| " << book[i])
+        print((i + 1) + "| " + book[i])
     }
     print("\\\\end of file\\\\")
 }
 
-func vecDelete(vector<string> &vecToDelete) {
+func vecDelete(vecToDelete: [String]) {
     vecToDelete.erase(vecToDelete.begin(), vecToDelete.end())
     vector<string>().swap(vecToDelete)
 }
 
-func vecDelete(vector<Word> &vecToDelete) {
+func vecDelete(vecToDelete: [Word]) {
     vecToDelete.erase(vecToDelete.begin(), vecToDelete.end())
     vector<Word>().swap(vecToDelete)
 }
 
-func vecDelete(vector<int> &vecToDelete) {
+func vecDelete(vecToDelete: [Int]) {
     vecToDelete.erase(vecToDelete.begin(), vecToDelete.end())
     vector<int>().swap(vecToDelete)
 }
 
-func vecDelete(vector<vector<int>> &vecToDelete) {
+func vecDelete(vecToDelete: [[Int]]) {
     vecToDelete.erase(vecToDelete.begin(), vecToDelete.end())
     vector<vector<int>>().swap(vecToDelete)
 }
 
-func displayProgramHeader() -> String {
-    return "// Reid_Nolan_HW8_[Concordance].cpp\n"
+func displayProgramHeader() {
+    print("// Reid_Nolan_HW8_[Concordance].cpp\n")
 }
 
-func displayMainMenu(){
+func displayMainMenu() {
         print("---------------Main Menu---------------")
         print("1. Select a text file to load into memory.")
         print("2. View the current text file with line numbers.")
@@ -81,62 +81,62 @@ func fileSelectionPrompt() -> String {
     return "Enter name of file to open>"
 }
 
-func displayLoadingFile(fileToOpen: String) -> String {
-    return "Loading \(fileToOpen) into memory.."
+func displayLoadingFile(fileToOpen: String) {
+    print("Loading \(fileToOpen) into memory..")
 }
 
-func displayLoadedFile(fileToOpen:String) -> String {
-    return "Successfully loaded \(fileToOpen) into memory..."
+func displayLoadedFile(fileToOpen:String) {
+    print("Successfully loaded \(fileToOpen) into memory...")
 }
 
-func displayNoInputFile(fileToOpen: String) -> String {
+func displayNoInputFile(fileToOpen: String) {
     print("Error! \(fileToOpen) could not be opened.")
     print("-Ensure that \(fileToOpen) has been placed in the current")
     print(" working directory and is not open in another program.")
 }
 
-func displayInvalidFileName() -> String {
-    return "Error! Invaid file name."
+func displayInvalidFileName() {
+    print("Error! Invaid file name.")
 }
 
-func displayNoConcordance() -> String {
-    return "Error! No concordance currently exists."
+func displayNoConcordance() {
+    print("Error! No concordance currently exists.")
 }
 
-func displayCreatingConcordance() -> String {
-    return "Creating concordance..."
+func displayCreatingConcordance() {
+    print("Creating concordance...")
 }
 
-func displaySortingWords() -> String {
-    return "Sorting contents..."
+func displaySortingWords() {
+    print("Sorting contents...")
 }
 
-func displayMatchingWords() -> String {
-    return "Matching words..."
+func displayMatchingWords() {
+    print("Matching words...")
 }
 
-func displayConcordanceCreated() -> String {
-    return "Concordance created successfully."
+func displayConcordanceCreated() {
+    print("Concordance created successfully.")
 }
 
-func displayNoDataExists() -> String {
-    return "Error! No data currently stored in memory."
+func displayNoDataExists() {
+    print("Error! No data currently stored in memory.")
 }
 
-func displaySavingToDisk() -> String {
-    return "Saving concordance to disk..."
+func displaySavingToDisk() {
+    print("Saving concordance to disk...")
 }
 
-func displaySavedToDisk(outputFileName: String) -> String {
-    return "Concordance successfully written to \(outputFileName)."
+func displaySavedToDisk(outputFileName: String) {
+    print("Concordance successfully written to \(outputFileName).")
 }
 
-func displaySaveToDiskFailed() -> String {
-    return "Error! Concordance could not be saved to disk."
+func displaySaveToDiskFailed() {
+    print("Error! Concordance could not be saved to disk.")
 }
 
-func displayCleaningMemory() -> String {
-        return "Cleaning up memory..."
+func displayCleaningMemory() {
+        print("Cleaning up memory...")
 }
 
 func displayExitingProgram() {
@@ -148,7 +148,7 @@ func displayExitingProgram() {
 var word: Word //create new object instance
 var concordance: Concordance //create new object instance
 
-book: vector<String> //create vector to store contents of input file
+var book: [String] = [] //create array to store contents of input file
 var fileToOpen: String = "" //variable for input file selection
 
 displayProgramHeader() //display program header
@@ -161,9 +161,9 @@ while (true) //loop until user quits
     
     var mainMenuChoiceGood: Bool = false //set loop condition, get user input until valid
     while (!mainMenuChoiceGood) {
-        vector<string> validMainInput{ "0", "1", "2", "3", "4", "5", } //create vector with menu options
+        let validMainInput: [String] = [ "0", "1", "2", "3", "4", "5" ] //create vector with menu options
         
-        mainMenuChoice = getConsoleInput_string(mainMenuSelectionPrompt: String()) //get user input and set to variable
+        mainMenuChoice = getConsoleInput_string(prompt: mainMenuSelectionPrompt()) //get user input and set to variable
         
         if (find(begin(validMainInput), end(validMainInput), mainMenuChoice) != end(validMainInput)) { //match user input against vector contents
             mainMenuChoiceGood = true //set loop condition to true to exit
@@ -174,7 +174,6 @@ while (true) //loop until user quits
     
     if (mainMenuChoice == "1") {
         //READ A TEXT FILE INTO MEMORY
-        
         inFile: fstream //create new input file
         fileToOpen = getConsoleInput_string(fileSelectionPrompt()) //get user input and set to variable
         
@@ -187,12 +186,12 @@ while (true) //loop until user quits
         inFile.open(fileToOpen)
         
         while (!inFile && found != string::npos) { //if file not opened and file name is valid
-            displayNoInputFile(fileToOpen) //display failed to open input file message
+            displayNoInputFile(fileToOpen: fileToOpen) //display failed to open input file message
             break
         }
         
         while (inFile) { //if input file is open
-            if (book.count > 0) { //check vector for existing content
+            if (!book.isEmpty) { //check vector for existing content
                 displayCleaningMemory()
                 vecDelete(book) //empty vector
                 vecDelete(word.wordList) //empty vector
@@ -209,23 +208,22 @@ while (true) //loop until user quits
         }
     }
     else if (mainMenuChoice == "2") { //VIEW THE CURRENT TEXT FILE
-        
-        if (book.count > 0) { //check vector for existing content
-            displayBook(book)
+        if (!book.isEmpty) { //check vector for existing content
+            displayBook(book: book)
         } else {
             displayNoDataExists()
         }
     }
     else if (mainMenuChoice == "3") { //CREATE CONCORDANCE FOR THE CURRENT TEXT FILE
-        if (book.count > 0) {//verify vector has existing content
+        if (!book.isEmpty) {//verify vector has existing content
             displayCreatingConcordance()
             word.parseOutWords(word, book, word.wordList) //format words and add property values to object
             
             displaySortingWords()
-            concordance.sortWords(word, word.wordList) //sort word objects in list by word and then line number
+            concordance.sortWords(word: word, wordList: word.wordList) //sort word objects in list by word and then line number
             
             displayMatchingWords()
-            concordance.matchWords(word.wordList, concordance.wordInFile, concordance.lineNumbers, concordance.lineNumbersList) //ignore duplicate words, but keep line numbers
+            concordance.matchWords(wordList: word.wordList, wordInFile: concordance.wordInFile, lineNumbers: concordance.lineNumbers, lineNumbersList: concordance.lineNumbersList) //ignore duplicate words, but keep line numbers
             
             displayConcordanceCreated()
         } else {
@@ -233,9 +231,8 @@ while (true) //loop until user quits
         }
     }
     else if (mainMenuChoice == "4") { //VIEW THE CURRENT CONCORDANCE
-        
-        if (concordance.wordInFile.count > 0) { //check vector for existing content
-            concordance.showConcordance(concordance.wordInFile, concordance.lineNumbers, concordance.lineNumbersList) //output concordance to console
+        if (!concordance.wordInFile.isEmpty) { //check vector for existing content
+            concordance.showConcordance(wordInFile: concordance.wordInFile, lineNumbers: concordance.lineNumbers, lineNumbersList: concordance.lineNumbersList) //output concordance to console
         } else {
             displayNoConcordance()
         }
@@ -243,13 +240,12 @@ while (true) //loop until user quits
         //Concordance::showConcordance(concordance.wordInFile, concordance.lineNumbers, concordance.lineNumbersList); //output concordance to console
     }
     else if (mainMenuChoice == "5") { //SAVE THE CURRENT CONCORDANCE TO DISK
-        
-        if (concordance.wordInFile.count > 0) { //check vector for existing content
+        if (!Concordance.wordInFile.isEmpty) { //check vector for existing content
             ofstream outFile: ofstream //create new output file
             
             size_t lastIndex = fileToOpen.find_last_of(".") //strinp off file extension
             let rawName: String = fileToOpen.substr(0, lastIndex)
-            let outputFileName: String = "[" + rawName + "]_concordance.txt" //set output file name
+            let outputFileName: String = "[\(rawName)]_concordance.txt" //set output file name
             
             outFile.open(outputFileName)
             
@@ -261,7 +257,7 @@ while (true) //loop until user quits
                 displaySavingToDisk()
                 Concordance.saveConcordance(concordance.wordInFile, concordance.lineNumbers, concordance.lineNumbersList, outFile) //output concordance to file
                 outFile.close()
-                displaySavedToDisk(outputFileName)
+                displaySavedToDisk(outputFileName: outputFileName)
                 break
             }
         } else {

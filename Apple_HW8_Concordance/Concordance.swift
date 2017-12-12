@@ -11,18 +11,18 @@ import Foundation
 //Concordance class
 struct Concordance {
     var word: Word
-}
+
 
 //class functions
-func sortWords(Word &word, vector<Word> &wordList) -> Concordance {
-    sort(wordList.begin(), wordList.end(), [](Word &one, Word &two) {   //sort word objects in list by word and then line number
+func sortWords(word: Word, wordList: [Word]) -> Concordance {
+    sort(wordList.begin(), wordList.end(), [](one: Word, two: Word) {   //sort word objects in list by word and then line number
         return (one.getWordItself() < two.getWordItself()) || ((one.getWordItself() == two.getWordItself()) && (one.getLineNumber() < two.getLineNumber()));
     });
 }
 
-func matchWords(vector<Word> wordList, vector<string> &wordInFile, vector<int> &lineNumbers, vector<vector<int>>&lineNumbersList) -> Concordance {
+func matchWords(wordList: [Word], wordInFile: [String], lineNumbers: [Int], lineNumbersList: [[Int]]) -> Concordance {
     for i in wordList { //loop through words in vector
-        if (i < wordList.count-1) { //leave the last element alone...for now
+        if (i < wordList.count - 1) { //leave the last element alone...for now
             if (wordList[i].getWordItself() == wordList[i + 1].getWordItself()) { //check if word matches next word
                 lineNumbers.push_back(wordList[i].getLineNumber()) //if word matches the next, only get line number and append to vector
                 continue
@@ -32,7 +32,7 @@ func matchWords(vector<Word> wordList, vector<string> &wordInFile, vector<int> &
                 lineNumbersList.push_back(lineNumbers) //append line numbers for each word to another 2-d vector
                 vecDelete(lineNumbers) //reset line number vector for next iteration
             }
-        } else if (i == wordList.count-1) {//now we can take care of that last element
+        } else if (i.equal(wordList.count-1)) {//now we can take care of that last element
             if (wordList[i].getWordItself() == wordList[i - 1].getWordItself()) { //if last word does matches the previous
                 wordInFile.push_back(wordList[i].getWordItself()) //if word matches the previous word, get word aad line number and append to vector
                 lineNumbers.push_back(wordList[i].getLineNumber())
@@ -43,7 +43,7 @@ func matchWords(vector<Word> wordList, vector<string> &wordInFile, vector<int> &
     }
 }
 
-func showConcordance(const vector<string> wordInFile, const vector<int> lineNumbers, const vector<vector<int>> lineNumbersList) -> Concordance {
+func showConcordance(wordInFile: [String], lineNumbers: [Int], lineNumbersList: [[Int]]) -> Concordance {
     let firstColumnHeader: String = "Words" //define first column header
     let secondColumnheader: String = "Count" //define third column header
     let thirdColumnheader: String = "Line Numbers" //define second column header
@@ -82,7 +82,7 @@ func showConcordance(const vector<string> wordInFile, const vector<int> lineNumb
     print("\\\\end of output\\\\")
 }
 
-func saveConcordance(const vector<string> wordInFile, const vector<int> lineNumbers, const vector<vector<int>> lineNumbersList, ofstream &outFile) -> Concordance {
+func saveConcordance(wordInFile: [String], lineNumbers: [Int], lineNumbersList: [[Int]], ofstream &outFile) -> Concordance {
     let firstColumnHeader: String = "Words" //define first column header
     let secondColumnheader: String = "Count" //define third column header
     let thirdColumnheader: String = "Line Numbers" //define second column header
@@ -123,7 +123,7 @@ func saveConcordance(const vector<string> wordInFile, const vector<int> lineNumb
     outFile << left << "\\\\end of file\\\\"
 }
 
-func vecDelete(vector<int> &vecToDelete) {
+func vecDelete(vecToDelete: [Int]) {
     vecToDelete.erase(vecToDelete.begin(), vecToDelete.end()); //empty vector
     vector<int>().swap(vecToDelete);
 }
@@ -135,6 +135,8 @@ struct sizeLess {//for maxLineLength function
     }
 };
 
-size_t Concordance::maxLineLength(vector<string> const &wordInFile) { //users sizeLess struct
-    return max_element(wordInFile.begin(), wordInFile.end(), sizeLess())->size(); //get length of longest word in vector
+func maxLineLength(wordInFile: [String]) -> size_t { //users sizeLess struct
+    return max_element(wordInFile.begin(), wordInFile.end(), sizeLess()) -> size(); //get length of longest word in vector
+}
+}
 }
