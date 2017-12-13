@@ -1,132 +1,170 @@
+////
+////  Word.swift
+////  Apple_HW8_Concordance
+////
+////  Created by Reid Nolan on 12/11/17.
+////  Copyright © 2017 Reid Nolan. All rights reserved.
+////
 //
-//  Word.swift
-//  Apple_HW8_Concordance
+//import Foundation
 //
-//  Created by Reid Nolan on 12/11/17.
-//  Copyright © 2017 Reid Nolan. All rights reserved.
+//var wordString: [String] = []
 //
-
-import Foundation
-
-//Word struct
-struct Word {
-    //struct variables
-    var wordItself: String
-    var frequency: Int
-    var lineNumber: Int
-    
-    init (wordItself: String = "",
-          frequency: Int = 0,
-          lineNumber: Int = 0) {
-        
-        self.wordItself = wordItself
-        self.frequency = frequency
-        self.lineNumber = lineNumber
-    }
-    
-    var wordList: [Word] = []
-    var wordString: String = ""
-
-    //setters
-    mutating func setWordItself(nextWord: String) {
-        self.wordItself = nextWord
-    }
-    mutating func setLineNumber(j: Int) {
-        self.lineNumber = j
-    }
-
-    //getters
-    func getWordItself() -> String {
-        return wordItself
-    }
-    func getLineNumber() -> Int {
-        return lineNumber
-    }
-
-    //other struct functions
-    mutating func parseOutWords(word: Word, book: [String], wordList: [Word]) {
-        for (i, _) in book.enumerated() {                             //loop through lines elements in vector
-            if (!book[i].isEmpty) {                                            //test for content
-                stringstream ss(book[i])                                       //declare and initialize local variables
-                
-                while (getline(ss, wordString, " ")) {                         //separate word in lines
-                    self.handleAccentedChar(wordString: wordString)                 //handle the french in Sherlock.txt
-                    if (!wordString.isEmpty) {                                 //checks for non-empty string
-                        removeLeadingPunct(wordString: wordString)                  //recursively removes leading punctiation from string
-                        if (!wordString.isEmpty) {                             //checks for non-empty string
-                            self.removeTrailingPunct(wordString: wordString)        //recursively removes trailing punctiation
-                            for (j, _) in wordString.enumerated() { //loops through string
-                                wordString[j] = tolower(wordString[j])         //converts string to lower case
-                            }
-                            self.setWordItself(nextWord: wordString)                     //set string value to word object
-                            setLineNumber(j: i + 1)                          //set line number value to word object
-                            self.wordList.append(word)                           //add object to list
-                        } else { /*doNothing()*/ }
-                    }
-                }
-            } else { /*doNothing()*/ }
-        }
-    }
-
-    func handleAccentedChar(wordString: String) {           //specifically for the accented French characters in Sherlock.txt
-        for (j, e) in wordString.enumerated() {
-            //loop through string elemets
-            if let i = wordString.index(of: "è") { //if const char[2] 'è' is hit...
-                let replacementE = "e"             //replace with "e"
-                wordString = wordString[wordString.startIndex ..< wordString.endIndex.advancedBy(-1)] //...then, set to 'e'
-                
-                                                //...then, clear the addional char at the end
-                wordString.count - 1                       //...finally, just to be sure
-            } else { /*doNothing()*/ }
-        }
-    }
-
-    func removeLeadingPunct(wordString: String) {
-        if (!isalnum(wordString[0])){                             //if first char ispunct, the opposite of isalnum...
-            String(wordString.removeFirst())                  //...then, remove that char
-            if (!wordString.isEmpty && !isalnum(wordString[0])) { //if string is not empty and the first char is not punct...
-                removeLeadingPunct(wordString: wordString)                    //...then, get recursive on it
-            }
-        } else { /*doNothing()*/ }
-    }
-
-    func removeTrailingPunct(wordString: String) {
-        if (!isalnum(wordString[wordString.count - 1])) {                //if last char ispunct, the opposite of isalnum...
-            String(wordString.removeFirst())                                          //...then, remove that char
-            if (!wordString.isEmpty && !isalnum(wordString.count - 1)) { //if string is not empty and the last char is not punct...
-                removeTrailingPunct(wordString: wordString)                 //...then, get recursive on it
-            }
-        } else { /*doNothing()*/ }
-    }
-}
-
-//extension String {
+////Word struct
+//struct Word {
+//    //struct variables
+//    var wordItself: String
+//    var frequency: Int
+//    var lineNumber: Int
+//    
+//    init (wordItself: String = "",
+//          frequency: Int = 0,
+//          lineNumber: Int = 0) {
+//        
+//        self.wordItself = wordItself
+//        self.frequency = frequency
+//        self.lineNumber = lineNumber
+//    }
+//    
+//    var wordList: [Word] = []
+//    //var wordString: [String] = []
+//    //wordList = [Word]()
+//    
 //
-//    subscript (i: Int) -> Character {
-//        return self[index(startIndex, offsetBy: i)]
+//    //setters
+//    mutating func setWordItself(nextWord: String) {
+//        self.wordItself = nextWord
+//    }
+//    mutating func setLineNumber(j: Int) {
+//        self.lineNumber = j
 //    }
 //
-//    subscript (i: Int) -> String {
-//        return String(self[i] as Character)
+//    //getters
+//    func getWordItself() -> String {
+//        return wordItself
 //    }
-//
-//    subscript (r: Range<Int>) -> String {
-//        let start = index(startIndex, offsetBy: r.lowerBound)
-//        let end = index(startIndex, offsetBy: r.upperBound)
-//        return String(self[Range(start ..< end)])
+//    func getLineNumber() -> Int {
+//        return lineNumber
 //    }
 //}
-
-
-extension Word: Equatable {
-    static func ==(lhs: Word, rhs: Word) -> Bool {
-        return (lhs.wordItself, lhs.lineNumber) == (rhs.wordItself, rhs.lineNumber)
-    }
-}
-
-extension Word: Comparable {
-    static func <(lhs: Word, rhs: Word) -> Bool {
-        return (lhs.wordItself, lhs.lineNumber) < (rhs.wordItself, rhs.lineNumber)
-    }
-}
-
+//
+//    //other struct functions
+//    func parseOutWords(book: inout [String], wordList: inout [Word]) {
+//        var stringToAdd: String = ""
+//        var word: Word = Word()
+//        for (i, _) in book.enumerated() {                                              //loop through lines elements in array
+//            if (!book[i].isEmpty) {                                                    //test for content
+//                
+//                var str1 = book[i]
+//                //print(str1)
+//                str1 = str1.trimmingCharacters(in: .controlCharacters)
+//                //print(str1)
+//                wordString = str1.components(separatedBy: " ")
+//                word.setLineNumber(j: i + 1)
+//                for word in wordString{
+//                    stringToAdd = word.trimmingCharacters(in: .punctuationCharacters).lowercased()
+//                    setWordItself(nextWord: stringToAdd)
+//                    print(getWordItself())
+//                    print(word.getLineNumber())
+//                    wordList.append(word.wordItself: word.getWordItself(), frequency: 0, lineNumber: word.getLineNumber()))
+//            
+//                
+//                
+////                //wordString = wordString.replacingOccurrences(of: "è", with: "e", options: .literal, range: nil)
+////                //wordString = String(describing: wordString.
+////                print("wordString = \(wordString)")
+////                print(wordString[0])
+////                print(wordString[1])
+////
+//////                var bookLine = String(book[i]
+//////                wordString = bookLine.components(separatedBy: .whitespaces).filter{ !$0.isEmpty };
+//////                for (i, line) in wordString.enumerated() {
+//////                    let lineNumber = i + 1 // We do this because the array is 0 based, but that's not how books work.
+//////                    line.words.forEach { word in
+//////                        if var index = concordance[word] {
+//////                            index.append(lineNumber)
+//////                            concordance.updateValue(index, forKey: word)
+//////                        } else {
+//////                            concordance[word] = [lineNumber]
+//////                        }
+//////                    }
+//////                }
+////
+////
+////                for word in wordString{
+////                    print(word)
+////                }
+////
+////                //wordString = wordString.trimmingCharacters(in: .punctuationCharacters)
+////
+////                if (!wordString.isEmpty) {                                 //checks for non-empty string
+////
+////                    if (!wordString.isEmpty) {                             //checks for non-empty string
+////                        //
+////                        //wordString = String(wordString.lowercased())               //converts string to lowercase
+////                        //for word in wordString {
+////                            //setWordItself(nextWord: wordString)           //set string value to word object
+////                            setLineNumber(j: i + 1) //set line number value to word object
+////                            print("getWordItself(): \(getWordItself())")
+////                            print("getLineNumber(): \(getWordItself())")
+////                            print("word: \(word)")
+////                            wordList.append(Word(wordItself: getWordItself(), frequency: 0, lineNumber: getLineNumber()))
+//
+//                       // } //else { /*doNothing()*/ }
+//                    //} else { /*doNothing() */ }
+//                }
+//            //} else { /*doNothing()*/ }
+//            }
+//        }
+//    }
+//
+//    func handleAccentedChar(wordString: String) -> String {           //specifically for the accented French characters in Sherlock.txt
+//        let newString = wordString.replacingOccurrences(of: "è", with: "e", options: .literal, range: nil)
+//        
+//        print("accented: \(newString)")
+//        return newString
+//    }
+//
+//    func removeLeadingPunct(wordString: String) -> String {
+//        var trimmed =  wordString.trimmingCharacters(in: NSCharacterSet.punctuationCharacters).trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
+//        trimmed = trimmed.trimmingCharacters(in: NSCharacterSet.controlCharacters)
+//        print("trimmed: \(trimmed)")
+//        return trimmed
+//    }
+//
+//    func removeTrailingPunct(wordString: String) -> String {
+//        let trimmed =  wordString.trimmingCharacters(in: NSCharacterSet.punctuationCharacters)
+//        print("trimmed: \(trimmed)")
+//        return trimmed
+//    }
+//
+////extension String {
+////
+////    subscript (i: Int) -> Character {
+////        return self[index(startIndex, offsetBy: i)]
+////    }
+////
+////    subscript (i: Int) -> String {
+////        return String(self[i] as Character)
+////    }
+////
+////    subscript (r: Range<Int>) -> String {
+////        let start = index(startIndex, offsetBy: r.lowerBound)
+////        let end = index(startIndex, offsetBy: r.upperBound)
+////        return String(self[Range(start ..< end)])
+////    }
+////}
+//
+//
+//extension Word: Equatable {
+//    static func ==(lhs: Word, rhs: Word) -> Bool {
+//        return (lhs.wordItself, lhs.lineNumber) == (rhs.wordItself, rhs.lineNumber)
+//    }
+//}
+//
+//extension Word: Comparable {
+//    static func <(lhs: Word, rhs: Word) -> Bool {
+//        return (lhs.wordItself, lhs.lineNumber) < (rhs.wordItself, rhs.lineNumber)
+//    }
+//}
+//
